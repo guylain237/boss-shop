@@ -1,0 +1,11 @@
+{
+  "name": "backend-shop",
+  "version": "1.0.0",
+  "description": "backend avec mongodb: mern",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js"
+  },
+  "author": "guylain florian",
+  "license": "ISC"
+}
