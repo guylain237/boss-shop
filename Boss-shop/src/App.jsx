@@ -6,8 +6,9 @@ import Home from "./Pages/Home";
 import { Menu } from "./Pages/Menu";
 import Contact from "./Pages/Contact";
 import About from "./Pages/About";
-import Login from "./Pages/Login";
+import Login from "./authentification/Login";
 import Product from "./Pages/Product";
+import Inscription  from "./authentification/Inscription";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 <Route path="contact"  element={<Contact/>} />
 <Route path="about"  element={<About/>} />
 <Route path="login"  element={<Login/>} />
+<Route path="inscription"  element={<Inscription/>} />
 <Route path="product"  element={<Product/>} />
 
 </Route>
