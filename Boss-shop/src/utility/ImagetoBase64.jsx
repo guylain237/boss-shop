@@ -7,3 +7,6 @@ async function  ImagetoBase64(file) {
     reader.onerror = (error) => reject(error);
   });
 }
+
+
+export default ImagetoBase64;

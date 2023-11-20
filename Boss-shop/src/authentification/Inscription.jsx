@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import profil from '../assets/profil.png'; 
+import ImagetoBase64 from '../utility/ImagetoBase64';
 
 export default function Inscription()  {
   const navigate = useNavigate();
@@ -11,14 +13,26 @@ export default function Inscription()  {
   const [motDePasse, setMotDePasse] = useState("");
   const [confirmationMotDePasse, setConfirmationMotDePasse] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [images, setImages] = useState("");
 
   const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);};
 
+      const handleuploadprofile = async (event) => {
+        const data = await ImagetoBase64(event.target.files[0]);
+        console.log(data);
+
+        setImages( data);
+
+
+
+
+      }
+
       const handleSubmit = (event) => {
         event.preventDefault();
       
-      //  const { nom, prenom, email, telephone, motDePasse, confirmationMotDePasse } = event.target.elements;
+      
       
         if (nom && prenom && email && telephone && motDePasse && confirmationMotDePasse) {
           if (motDePasse === confirmationMotDePasse) {
@@ -34,8 +48,20 @@ export default function Inscription()  {
       
   return (
     <>
-       <div className="flex justify-center items-center w-full py-3">
-    <form onSubmit={handleSubmit} className="max-w-md shadow-md  mx-auto bg-white rounded w-full">
+         <div className='p-3 w-full h-screen md:p-4'>
+                            <div className=" w-full  max-w-sm bg-white  m-auto flex flex-col p-4">
+                                <div className='w-20 overflow-hidden h-20 rounded-full drop-shodow-md shadow-md m-auto relative'>
+                                    <img src={ images ? images : profil} alt="logo" className='w-full h-full' />
+                                    <label htmlFor='profilname'>
+
+                                <div className='absolute bottom-0  h-1/2 bg-slate-500 bg-opacity-20 w-full text-center cursor-pointer'>
+                                  <p className='text-sm p-1 text-white'>Upload </p>
+                                </div>
+                                <input type='file' id='profilname' className='hidden' onChange={handleuploadprofile} accept='images/*' />
+                                </label>
+
+                                </div>
+    <form onSubmit={handleSubmit} className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl shadow-md mx-auto bg-white rounded w-full">
       <div className="mb-4">
         <label htmlFor="nom" className="block text-gray-700 font-bold mb-2">
           Nom
@@ -133,16 +159,18 @@ export default function Inscription()  {
 
       <button
         type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      >
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
+        >
+      
         S'inscrire
       </button>
-      <Link  className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800  mx-20 focus:shadow-outline"
-                                          to="/login"
-                                        >
+      <Link  className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 mx-2 sm:mx-20 focus:shadow-outline"
+        to="/login"
+      >
                                           Se Connecter   
                                         </Link>
     </form>
+    </div>
     </div>
     </>
   );
