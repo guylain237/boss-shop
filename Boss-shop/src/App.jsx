@@ -9,12 +9,14 @@ import About from "./Pages/About";
 import Login from "./authentification/Login";
 import Product from "./Pages/Product";
 import Inscription  from "./authentification/Inscription";
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
 
   return (
    
       <div className=''>
+         <Toaster />
 
       <BrowserRouter>
 <Routes>
