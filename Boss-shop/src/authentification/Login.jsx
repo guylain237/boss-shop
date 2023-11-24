@@ -7,12 +7,11 @@ import toast from "react-hot-toast";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
-    nom: "",
-    prenom: "",
+    
     email: "",
-    telephone: "",
+    
     motDePasse: "",
-    confirmationMotDePasse: "",
+   
   });
 
   const togglePasswordVisibility = () => {
@@ -32,6 +31,8 @@ export default function Login() {
               data
             ),
             });
+           
+          console.log(fetchdata);
             toast.success("Connexion réussie");
       
     }
@@ -58,6 +59,8 @@ export default function Login() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
+              value={data.email}
+              onChange={(e) => setData({ ...data, email: e.target.value })}
               type="email"
               placeholder="Nom d'utilisateur"
             />
@@ -75,6 +78,8 @@ export default function Login() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="**********"
+                value={data.motDePasse}
+                onChange={(e) => setData({...data, motDePasse: e.target.value })}
               />
               <button
                 type="button"
@@ -88,7 +93,7 @@ export default function Login() {
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
             >
               Se connecter
             </button>

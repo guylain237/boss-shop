@@ -31,6 +31,8 @@ app.use('/', require('./Router/userRoute') );
 
 app.use('/inscription',require('./Router/userRoute'));
 
+app.use('/login',require('./Router/userLogin'));
+
 app.listen(PORT, () => {
 
   console.log(`votre server demarre sur le  port ${PORT}!`);
