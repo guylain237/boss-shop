@@ -1,46 +1,60 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profil from "../assets/profil.png";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRedux } from "../redux/UserSlice";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
-    
     email: "",
-    
+
     motDePasse: "",
-   
   });
+  const navigate = useNavigate();
+
+  const userData = useSelector((state) => state);
+
+  console.log(userData.user);
+
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const {email,motDePasse } =data;
-    if(email && motDePasse){
-        
-        const fetchdata = await fetch(`${import.meta.env.VITE_API_SERVER}/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(
-              data
-            ),
-            });
-           
-          console.log(fetchdata);
-            toast.success("Connexion réussie");
-      
+    const { email, motDePasse } = data;
+    if (email && motDePasse) {
+      const fetchdata = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        },
+      );
+
+      const response = await fetchdata.json();
+      console.log(response);
+
+      toast.success(userData.user.prenom + " " + response.message);
+
+      if (response.alert) {
+        setTimeout(() => {
+          dispatch(loginRedux(response));
+          navigate("/");
+        }, 3000);
+      }
+      console.log(userData);
+    } else {
+      toast.error("Veuillez remplir tous les champs");
     }
-    else{
-        toast.error("Veuillez remplir tous les champs");
-    }
-  
-  }
+  };
 
   return (
     <div className="p-3 w-full h-screen md:p-4">
@@ -48,7 +62,10 @@ export default function Login() {
         <div className="w-20 overflow-hidden rounded-full drop-shodow-md shadow-md m-auto">
           <img src={profil} alt="logo" className="w-full" />
         </div>
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto bg-white rounded w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto bg-white rounded w-full"
+        >
           <div className="mb-4">
             <label
               className="block text-gray-700 font-bold mb-2"
@@ -79,7 +96,9 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 placeholder="**********"
                 value={data.motDePasse}
-                onChange={(e) => setData({...data, motDePasse: e.target.value })}
+                onChange={(e) =>
+                  setData({ ...data, motDePasse: e.target.value })
+                }
               />
               <button
                 type="button"

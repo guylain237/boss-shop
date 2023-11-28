@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import profil from "../assets/profil.png";
@@ -23,10 +23,10 @@ console.log(data)
     setShowPassword((show) => !show);
   };
 
-  const handleOnchange =(e) =>{
+ /* const handleOnchange =(e) =>{
     const { name, value } = e.target;
     setData((prev)=>{return{...prev, [name]: value}});
-  }
+  }*/
 
   const handleuploadprofile = async (event) => {
     const data = await ImagetoBase64(event.target.files[0]);

@@ -22,10 +22,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  confirmationMotDePasse: {
-    type: String,
-    required: true
-  },
+ 
+ 
   images : String
 });
 
