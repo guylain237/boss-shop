@@ -15,9 +15,10 @@ export default function Login() {
   });
   const navigate = useNavigate();
 
-  const userData = useSelector((state) => state);
+  
+  const userData = useSelector((state) => state.user);
 
-  console.log(userData.user);
+  console.log(userData);
 
   const dispatch = useDispatch();
 
@@ -41,8 +42,7 @@ export default function Login() {
 
       const response = await fetchdata.json();
       console.log(response);
-
-      toast.success(userData.user.prenom + " " + response.message);
+      toast.success(userData.nom +' '+ (response.message || ''));
 
       if (response.alert) {
         setTimeout(() => {

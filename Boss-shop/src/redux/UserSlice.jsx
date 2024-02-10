@@ -23,14 +23,14 @@ export const UserSlice = createSlice({
       state.telephone = telephone;
       state.images = images;
     },
-    LogoutRedux: (state, action) => {
-      console.log(action.payload.data);
+    logoutRedux: (state) => {
       const resetState = { ...initialState };
       Object.assign(state, resetState);
+   
     }
   },
 })
 
-export const { loginRedux, LogoutRedux } = UserSlice.actions;
+export const { loginRedux, logoutRedux } = UserSlice.actions;
 
 export default UserSlice.reducer;
