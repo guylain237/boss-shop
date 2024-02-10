@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import profil from "../assets/profil.png";
 import ImagetoBase64 from "../utility/ImagetoBase64";
 import toast from "react-hot-toast";
-
+import axios from 'axios';
 export default function Inscription() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -23,10 +23,10 @@ console.log(data)
     setShowPassword((show) => !show);
   };
 
-  const handleOnchange =(e) =>{
+ /* const handleOnchange =(e) =>{
     const { name, value } = e.target;
     setData((prev)=>{return{...prev, [name]: value}});
-  }
+  }*/
 
   const handleuploadprofile = async (event) => {
     const data = await ImagetoBase64(event.target.files[0]);
@@ -36,49 +36,45 @@ console.log(data)
   };
   
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { nom, prenom, email, telephone, motDePasse, confirmationMotDePasse } =data;
+ 
 
-    if (
-      nom &&
-      prenom &&
-      email &&
-      telephone &&
-      motDePasse &&
-      confirmationMotDePasse
-    ) {
-      if (motDePasse === confirmationMotDePasse) {
-        
-        const fetchdata = await fetch(`${import.meta.env.VITE_API_SERVER}/inscription`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(
-            data
-          ),
-        }
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const { nom, prenom, email, telephone, motDePasse, confirmationMotDePasse } = data;
 
-          );
-       const datares = await fetchdata.json();
-       console.log(datares);
+  if (
+    nom &&
+    prenom &&
+    email &&
+    telephone &&
+    motDePasse &&
+    confirmationMotDePasse
+  ) {
+    if (motDePasse === confirmationMotDePasse) {
+      
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_SERVER}/inscription`, data);
+        const datares =await response.data;
+        console.log(datares);
 
-    
-   // alert(datares.message);
+        // alert(datares.message);
+      // alert(datares.message);
    toast.success(datares.message);
    if(datares.alert){
     navigate("/login");
    }
-  
-
-      } else {
-        toast.error("Le mot de passe est différent");
+      } catch (error) {
+        console.error("Une erreur s'est produite lors de l'inscription :", error);
+        toast.error("Une erreur s'est produite lors de l'inscription");
       }
-    } else { 
-      toast.error("Veuillez remplir tous les champs");
+
+    } else {
+      toast.error("Le mot de passe est différent");
     }
-  };
+  } else {  
+    toast.error("Veuillez remplir tous les champs");
+  }
+};
   console.log(`${import.meta.env.VITE_APP_SERVER}`);
 
   return (
